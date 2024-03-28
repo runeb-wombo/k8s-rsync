@@ -83,8 +83,15 @@ if [ $# -lt 2 ]; then
 	exit 2
 fi
 
-POD="$1"
+pod_grepper() {
+	kubectl get pods -n wombo | grep "$1" | awk '{ print $1 }'
+}
+
+# POD="$1"
+POD=$(pod_grepper "$1")
 shift
+
+echo "PPPOLDDDDD $POD"
 # REMOTE="$1"
 # shift
 
@@ -113,4 +120,4 @@ done
 echo "watching.... ${WATCHES}"
 watchdir
 
-		
+

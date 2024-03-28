@@ -5,7 +5,9 @@
 if [ -z "$KRSYNC_STARTED" ]; then
     export KRSYNC_STARTED=true
     # blocking-io option seems to cause less issues with SSH
-    exec rsync --blocking-io --rsh "$0" $@
+    /opt/homebrew/bin/rsync --blocking-io --rsh "$0" $@ 
+    # exec /opt/homebrew/bin/rsync --blocking-io --rsh "$0" $@ 
+    # exec rsync --blocking-io --rsh "$0" $@
 fi
 
 # Running as --rsh
@@ -21,5 +23,8 @@ if [ "X$pod" = "X-l" ]; then
     shift
 fi
 
-exec kubectl $namespace exec -i $pod -- "$@"
+# echo "KUBECTL ACTION $@"
+
+exec kubectl -n wombo exec -c shadow-builder -i $pod -- "$@"
+# exec kubectl $namespace  -c shadow-builder exec -i $pod -- "$@"
 
